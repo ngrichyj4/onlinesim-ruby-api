@@ -7,14 +7,15 @@ require 'onlinesim/GetUser'
 
 module OnlineSim
   class Driver
-    def initialize(apikey: '', lang: 'en', dev_id: str = nil)
+    def initialize(apikey: '', lang: 'en', dev_id: str = nil, proxy_uri: str = nil)
       @apikey = apikey
       @lang = lang
       @dev_id = dev_id
+      @proxy_uri = proxy_uri 
     end
 
     def numbers
-      OnlineSim::GetNumbers.new(:apikey => @apikey, :lang => @lang, :dev_id => @dev_id)
+      OnlineSim::GetNumbers.new(:apikey => @apikey, :lang => @lang, :dev_id => @dev_id, :proxy_uri => @proxy_uri)
     end
 
     def forward
