@@ -14,10 +14,11 @@ module OnlineSim
   class Base
     HTTP_OK_CODE = 200
 
-    def initialize(apikey: nil, lang: 'en', dev_id: nil)
+    def initialize(apikey: nil, lang: 'en', dev_id: nil, proxy_uri: nil)
       @apikey = apikey
       @lang = lang
       @dev_id = dev_id
+      @proxy_uri = proxy_uri
 
       Faraday.ignore_env_proxy = true
       Faraday::Connection.prepend FaradayOverrides
@@ -25,7 +26,7 @@ module OnlineSim
 
     private
     def client
-      @_client ||= Faraday.new('https://onlinesim.ru') do |client|
+      @_client ||= Faraday.new('https://onlinesim.ru', proxy: @proxy_uri) do |client|
         client.request :url_encoded
         client.adapter Faraday.default_adapter
         client.headers['User-agent'] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
